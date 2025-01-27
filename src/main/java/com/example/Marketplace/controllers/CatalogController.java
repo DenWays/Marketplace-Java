@@ -1,5 +1,6 @@
 package com.example.Marketplace.controllers;
 
+import com.example.Marketplace.models.Account;
 import com.example.Marketplace.models.Product;
 import com.example.Marketplace.services.ProductService;
 import lombok.AllArgsConstructor;
@@ -26,5 +27,11 @@ public class CatalogController {
     @PostMapping("add")
     public Product addProduct(@RequestBody Product product) {
         return productService.addProduct(product);
+    }
+
+    @GetMapping("account/{accountId}")
+    public List<Product> getProductsByAccountId(@PathVariable Integer accountId) {
+        List<Product> asd = productService.getProductsByAccountId(accountId);
+        return productService.getProductsByAccountId(accountId);
     }
 }

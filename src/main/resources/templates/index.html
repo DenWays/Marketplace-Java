@@ -15,6 +15,7 @@
             align-items: center;
             background-color: #333;
             padding: 5px 10px;
+            height: 48px;
         }
         .navbar a {
             color: white;
@@ -123,7 +124,7 @@
         <a href="addbook">Добавить книгу</a>
     </div>
     <div class="user-info">
-        <p>Логин: <span id="login"></span></p>
+        <a href="/account/{login}"><p>Логин: <span id="login"></span></p></a>
         <div class="popup">
             <p><strong>Роль:</strong> <span id="role"></span></p>
             <p><strong>Имя:</strong> <span id="firstName"></span></p>
@@ -133,12 +134,12 @@
         </div>
     </div>
     <div>
-        <a href="cart" id="cartButton" style="display:none;">Корзина</a> <!-- initially hidden -->
+        <a href="/cart" id="cartButton" style="display:none;">Корзина</a> <!-- initially hidden -->
     </div>
     <div>
-        <a href="login" id="loginButton">Войти</a>
-        <a href="register" id="registerButton">Зарегистрироваться</a>
-        <a href="logout" id="logoutButton" style="display:none;">Выйти</a>
+        <a href="/login" id="loginButton">Войти</a>
+        <a href="/register" id="registerButton">Зарегистрироваться</a>
+        <a href="/logout" id="logoutButton" style="display:none;">Выйти</a>
     </div>
 </div>
 <div class="content">
@@ -168,6 +169,7 @@
         const registerButton = document.getElementById('registerButton');
         const logoutButton = document.getElementById('logoutButton');
         const cartButton = document.getElementById('cartButton'); // Get cart button
+        const accountLink = document.querySelector('.user-info a'); // Находим ссылку на профиль
 
         // Привязываем данные пользователя к полям
         login.textContent = fetchedAccount?.login || 'Не авторизован';
@@ -188,6 +190,7 @@
 
         // Логика отображения кнопок
         if (fetchedAccount?.login) {
+            accountLink.href = `/account/${fetchedAccount.login}`;
             loginButton.style.display = 'none';
             registerButton.style.display = 'none';
             logoutButton.style.display = 'inline';

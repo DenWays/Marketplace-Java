@@ -1,5 +1,6 @@
 package com.example.Marketplace.services.impls;
 
+import com.example.Marketplace.models.Account;
 import com.example.Marketplace.models.Product;
 import com.example.Marketplace.repositories.ProductRepository;
 import com.example.Marketplace.services.ProductService;
@@ -28,5 +29,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getById(Integer id) {
         return productRepository.findById(id).get();
+    }
+
+    @Override
+    public List<Product> getProductsByAccountId(Integer accountId) {
+        return productRepository.findProductsByAccountId(accountId);
     }
 }

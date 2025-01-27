@@ -30,6 +30,11 @@ public class AccountController {
         return userDetails.getAccount();
     }
 
+    @GetMapping("account/{login}")
+    public Account getAccountByLogin(@PathVariable String login) {
+        return accountService.findByLogin(login);
+    }
+
     @GetMapping("/csrf-token")
     public Map<String, String> getCsrfToken(HttpServletRequest request) {
         Map<String, String> csrfToken = new HashMap<>();

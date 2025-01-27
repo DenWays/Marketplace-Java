@@ -1,5 +1,6 @@
 package com.example.Marketplace.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -35,6 +36,7 @@ public class Account {
     @Column(name = "email")
     private String email;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @Column(name = "creatingDate")
     private Date creatingDate;
 }

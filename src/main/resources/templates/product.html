@@ -17,6 +17,7 @@
             align-items: center;
             background-color: #333;
             padding: 5px 10px;
+            height: 48px;
         }
         .navbar a {
             color: white;
@@ -114,6 +115,18 @@
         .add-to-cart:hover {
             background-color: #45a049;
         }
+        .login-seller {
+            color: #4CAF50; /* Зеленый цвет для логина */
+            text-decoration: none;
+            padding: 5px 2px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .login-seller:hover {
+            background-color: #45a049; /* Затемнение при наведении */
+            color: white; /* Белый цвет текста при наведении */
+        }
     </style>
 </head>
 <body>
@@ -123,7 +136,7 @@
         <a href="/addbook">Добавить книгу</a>
     </div>
     <div class="user-info">
-        <p>Логин: <span id="login"></span></p>
+        <a href="/account/{login}"><p>Логин: <span id="login"></span></p></a>
         <div class="popup">
             <p><strong>Роль:</strong> <span id="role"></span></p>
             <p><strong>Имя:</strong> <span id="firstName"></span></p>
@@ -147,7 +160,7 @@
         <img src="#" alt="Фото товара" class="product-image" id="productImage">
         <div class="product-details">
             <h1 id="productName">Название товара</h1>
-            <p id="productAccount">Продавец: <span></span></p>
+            <p id="productAccount">Продавец: <a id="sellerLogin" class="login-seller" href="#"> <span></span></a></p>
             <p id="productCategory">Категория: <span></span></p>
             <p id="productQuantity" class="product-quantity">Количество: <span></span></p>
             <p> </p>
@@ -169,7 +182,10 @@
         document.getElementById('email').textContent = fetchedAccount?.email || 'Не указано';
         document.getElementById('role').textContent = fetchedAccount?.role === 'ROLE_USER' ? 'Покупатель' :
             fetchedAccount?.role === 'ROLE_CONSUMER' ? 'Продавец' : 'Админ';
+        const accountLink = document.querySelector('.user-info a'); // Находим ссылку на профиль
+
         if (fetchedAccount?.login) {
+            accountLink.href = `/account/${fetchedAccount.login}`;
             document.getElementById('loginButton').style.display = 'none';
             document.getElementById('registerButton').style.display = 'none';
             document.getElementById('logoutButton').style.display = 'inline';
@@ -198,6 +214,10 @@
             console.log('Товар добавлен в корзину:', productId);
             // Реализуйте логику добавления товара в корзину
         });
+
+        const sellerLogin = product.account?.login || 'Не указан';
+        const sellerLink = document.getElementById('sellerLogin');
+        sellerLink.href = `/account/${sellerLogin}`;
     }
 
     document.addEventListener('DOMContentLoaded', () => {
