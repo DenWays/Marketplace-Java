@@ -43,8 +43,8 @@ public class WebSecurityConfig {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .csrf(csrf  -> csrf.ignoringRequestMatchers("/logout", "api/addaccount", "api/**"))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "register", "api/account", "api/books", "api/addaccount",
-                                "api/authors",  "api/genres", "navigation", "login", "api/csrf-token", "logout")
+                        .requestMatchers("/", "register", "api/account", "api/products", "api/addaccount",
+                                "navigation", "login", "api/csrf-token", "logout")
                         .permitAll()
                         .anyRequest().authenticated())
                 .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)

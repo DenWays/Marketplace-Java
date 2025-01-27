@@ -57,13 +57,13 @@
         .content h2 {
             text-align: center;
         }
-        .book-list {
+        .product-list {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 20px;
             margin-top: 20px;
         }
-        .book-card {
+        .product-card {
             background-color: #fff;
             padding: 20px;
             border-radius: 10px;
@@ -72,34 +72,27 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            height: 600px; /* Увеличиваем высоту карточки */
+            height: 450px; /* Увеличиваем высоту карточки */
         }
-        .book-card img {
+        .product-card img {
             max-width: 100%;
             height: auto;
             border-radius: 8px;
             margin-bottom: 15px;
             max-height: 250px; /* Максимальная высота изображения */
         }
-        .book-card h3 {
+        .product-card h3 {
             margin: 0;
             font-size: 18px;
         }
-        .book-card p {
+        .product-card p {
             margin: 5px 0;
             color: #555;
         }
-        .book-card .description {
-            margin-top: 10px;
-            max-height: 200px; /* Увеличиваем высоту описания */
-            overflow-y: auto; /* Включаем прокрутку для описания */
-            text-align: left;
-            padding-right: 5px; /* Добавляем отступ справа для прокрутки */
-        }
-        .book-card .aag {
+        .product-card .aag {
             font-weight: bold;
         }
-        .book-card button {
+        .product-card button {
             background-color: #4CAF50; /* Зеленый цвет */
             color: white;
             border: none;
@@ -109,7 +102,7 @@
             border-radius: 5px;
             margin-top: 10px;
         }
-        .book-card button:hover {
+        .product-card button:hover {
             background-color: #45a049;
         }
     </style>
@@ -125,9 +118,9 @@
         <div class="popup">
             <p><strong>Роль:</strong> <span id="role"></span></p>
             <p><strong>Имя:</strong> <span id="firstName"></span></p>
-            <p><strong>Фамилия:</strong> <span id="secondName"></span></p>
-            <p><strong>Отчество:</strong> <span id="surName"></span></p>
-            <p><strong>Почта:</strong> <span id="mail"></span></p>
+            <p><strong>Фамилия:</strong> <span id="lastName"></span></p>
+            <p><strong>Отчество:</strong> <span id="middleName"></span></p>
+            <p><strong>Почта:</strong> <span id="email"></span></p>
         </div>
     </div>
     <div>
@@ -141,7 +134,7 @@
 </div>
 <div class="content">
     <h2>Каталог</h2>
-    <div class="book-list" id="bookList"></div> <!-- Список книг в виде карточек -->
+    <div class="product-list" id="productList"></div> <!-- Список книг в виде карточек -->
 </div>
 
 <script>
@@ -158,10 +151,10 @@
         const fetchedAccount = await response.json();
         const login = document.getElementById('login');
         const firstName = document.getElementById('firstName');
-        const secondName = document.getElementById('secondName');
-        const surName = document.getElementById('surName');
+        const lastName = document.getElementById('lastName');
+        const middleName = document.getElementById('middleName');
         const role = document.getElementById('role');
-        const mail = document.getElementById('mail');
+        const email = document.getElementById('email');
         const loginButton = document.getElementById('loginButton');
         const registerButton = document.getElementById('registerButton');
         const logoutButton = document.getElementById('logoutButton');
@@ -170,13 +163,17 @@
         // Привязываем данные пользователя к полям
         login.textContent = fetchedAccount?.login || 'Не авторизован';
         firstName.textContent = fetchedAccount?.firstName || 'Не указано';
-        secondName.textContent = fetchedAccount?.secondName || 'Не указано';
-        surName.textContent = fetchedAccount?.surName || 'Не указано';
-        mail.textContent = fetchedAccount?.mail || 'Не указано';
+        lastName.textContent = fetchedAccount?.lastName || 'Не указано';
+        middleName.textContent = fetchedAccount?.middleName || 'Не указано';
+        email.textContent = fetchedAccount?.email || 'Не указано';
         role.textContent = 'Не указано';
         if (fetchedAccount?.role == "ROLE_USER") {
-            role.textContent = 'Пользователь';
-        } else {
+            role.textContent = 'Покупатель';
+        }
+        else if (fetchedAccount?.role == "ROLE_CONSUMER") {
+            role.textContent = 'Продавец';
+        }
+        else {
             role.textContent = 'Админ';
         }
 
@@ -194,43 +191,39 @@
         }
     }
 
-<!--    async function loadProducts() {-->
-<!--        const response = await fetch('api/books');-->
-<!--        const books = await response.json();-->
-<!--        const bookList = document.getElementById('bookList');-->
-<!--        // Очищаем список перед добавлением новых данных-->
-<!--        bookList.innerHTML = '';-->
-<!--        // Добавляем каждую книгу в виде карточки-->
-<!--        books.forEach(book => {-->
-<!--            const bookCard = document.createElement('div');-->
-<!--            bookCard.classList.add('book-card');-->
-<!--            bookCard.innerHTML = `-->
-<!--                <img src="${book.photoUrl}"/> &lt;!&ndash; Фото книги &ndash;&gt;-->
-<!--                <h3>${book.name}</h3>-->
-<!--                <p class="aag">Автор: ${book.author.name}</p>-->
-<!--                <p class="aag">Жанр: ${book.genre.name}</p>-->
-<!--                <div class="description">-->
-<!--                    <p>Описание: ${book.descr}</p>-->
-<!--                </div>-->
-<!--                <p>Цена: ${book.price} ₽</p>-->
-<!--                <button class="add-to-cart" data-book-id="${book.id}">Добавить в корзину</button>-->
-<!--            `;-->
-<!--            bookList.appendChild(bookCard);-->
-<!--        });-->
+    async function loadProducts() {
+        const response = await fetch('api/products');
+        const products = await response.json();
+        const productList = document.getElementById('productList');
+        // Очищаем список перед добавлением новых данных
+        productList.innerHTML = '';
+        // Добавляем каждую книгу в виде карточки
+        products.forEach(product => {
+            const productCard = document.createElement('div');
+            productCard.classList.add('product-card');
+            productCard.innerHTML = `
+                <img src="${product.imageUrl}"/> <!-- Фото товара -->
+                <h3>${product.name}</h3>
+                <p class="aag">${product.category.name}</p>
+                <p>Цена: ${product.price} ₽</p>
+                <button class="add-to-cart" data-product-id="${product.id}">Добавить в корзину</button>
+            `;
+            productList.appendChild(productCard);
+        });
 
-<!--        // Обработчик кнопки "Добавить в корзину"-->
-<!--        document.querySelectorAll('.add-to-cart').forEach(button => {-->
-<!--            button.addEventListener('click', function() {-->
-<!--                const bookId = this.getAttribute('data-book-id');-->
-<!--                // Добавить книгу в корзину (реализовать нужную логику)-->
-<!--                console.log('Книга добавлена в корзину:', bookId);-->
-<!--            });-->
-<!--        });-->
-<!--    }-->
+        // Обработчик кнопки "Добавить в корзину"
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function() {
+                const productId = this.getAttribute('data-product-id');
+                // Добавить книгу в корзину (реализовать нужную логику)
+                console.log('Книга добавлена в корзину:', productId);
+            });
+        });
+    }
 
     document.addEventListener('DOMContentLoaded', () => {
         getLogin();
-<!--        loadBooks();  // Загружаем книги после загрузки страницы-->
+        loadProducts();
     });
 </script>
 </body>
