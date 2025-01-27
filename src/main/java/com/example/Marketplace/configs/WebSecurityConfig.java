@@ -44,7 +44,7 @@ public class WebSecurityConfig {
                 .csrf(csrf  -> csrf.ignoringRequestMatchers("/logout", "api/addaccount", "api/**"))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "register", "api/account", "api/products", "api/addaccount",
-                                "navigation", "login", "api/csrf-token", "logout")
+                                "navigation", "login", "api/csrf-token", "logout", "products/{id}", "api/products/{id}")
                         .permitAll()
                         .anyRequest().authenticated())
                 .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
