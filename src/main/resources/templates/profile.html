@@ -73,8 +73,11 @@
     }
     /* Стили для карточек товаров */
     .product-card {
-      display: inline-block;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       width: 200px;
+      min-height: 350px;
       margin: 15px;
       padding: 15px;
       border: 1px solid #ddd;
@@ -82,7 +85,7 @@
       background-color: #fff;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       text-align: center;
-      vertical-align: top;
+      overflow: hidden;
     }
     .product-card img {
       width: 100%;
@@ -93,10 +96,19 @@
       font-size: 18px;
       margin-top: 10px;
       color: #333;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-height: 40px;
     }
     .product-card p {
       font-size: 16px;
       color: #555;
+      margin: 5px 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-height: 20px;
     }
     .product-card .price {
       font-size: 18px;
@@ -184,11 +196,11 @@
         const productCard = document.createElement('div');
         productCard.classList.add('product-card');
         productCard.innerHTML = `
-          <img src="${product.imageUrl}" alt="${product.name}" />
+          <img src="${product.imageUrl || 'placeholder.jpg'}" alt="${product.name}" />
           <h4>${product.name}</h4>
-          <p><strong>Категория: </strong> ${product.category.name}</p>
-          <p><strong>Количество: </strong> ${product.quantity}</p>
-          <p><strong>Цена: </strong><span class="price"> ${product.quantity} руб.</span></p>
+          <p><strong>Категория: </strong> ${product.category?.name || 'Не указано'}</p>
+          <p><strong>Количество: </strong> ${product.quantity || '0'}</p>
+          <p><strong>Цена: </strong><span class="price"> ${product.price || '0'} руб.</span></p>
         `;
         productList.appendChild(productCard);
       });
