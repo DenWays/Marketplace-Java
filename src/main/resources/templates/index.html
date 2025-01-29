@@ -229,10 +229,30 @@
 
         // Обработчик кнопки "Добавить в корзину"
         document.querySelectorAll('.add-to-cart').forEach(button => {
-            button.addEventListener('click', function() {
+            button.addEventListener('click', async function() {
                 const productId = this.getAttribute('data-product-id');
-                // Добавить книгу в корзину (реализовать нужную логику)
-                console.log('Книга добавлена в корзину:', productId);
+                try {
+                    const response = await fetch(`/api/cart/addtocart/${productId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            // Если требуется авторизация, добавьте токен в заголовки
+                            'Authorization': `Bearer ${localStorage.getItem('token')}`
+                        },
+                        credentials: 'include' // Если используете куки для аутентификации
+                    });
+
+                    if (response.ok) {
+                        console.log('Книга добавлена в корзину:', productId);
+                        alert('Книга успешно добавлена в корзину!');
+                    } else {
+                        console.error('Ошибка при добавлении книги в корзину:', response.statusText);
+                        alert('Произошла ошибка при добавлении книги в корзину.');
+                    }
+                } catch (error) {
+                    console.error('Ошибка при отправке запроса:', error);
+                    alert('Произошла ошибка при отправке запроса.');
+                }
             });
         });
     }

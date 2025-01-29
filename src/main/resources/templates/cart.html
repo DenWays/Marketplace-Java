@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Корзина</title>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+    }
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #333;
+        padding: 5px 10px;
+        height: 48px;
+    }
+    .navbar a {
+        color: white;
+        padding: 5px 10px;
+        text-decoration: none;
+        display: block;
+    }
+    .navbar a:hover {
+        background-color: #575757;
+    }
+    .navbar .left {
+        display: flex;
+        justify-content: left;
+        flex-grow: 1;
+    }
+    .user-info {
+        position: relative;
+        display: inline-block;
+        color: white;
+        padding: 5px 10px;
+    }
+    .user-info:hover .popup {
+        display: block;
+    }
+    .popup {
+        display: none;
+        position: absolute;
+        top: 30px;
+        right: 0;
+        background-color: #f9f9f9;
+        color: black;
+        padding: 10px;
+        border: 1px solid #ccc;
+        width: 200px;
+    }
+    .content {
+        padding: 20px;
+        background-color: #f4f4f4;
+    }
+    .content h2 {
+        text-align: center;
+    }
+    .cart-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+    }
+    .cart-item {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .cart-item img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        max-height: 250px;
+    }
+    .cart-item h3 {
+        margin: 0;
+        font-size: 18px;
+    }
+    .cart-item p {
+        margin: 5px 0;
+        color: #555;
+    }
+    .cart-item button {
+        background-color: #dc3545; /* Красный цвет для кнопки удаления */
+        color: white;
+        border: none;
+        padding: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+    .cart-item button:hover {
+        background-color: #c82333;
+    }
+    .quantity-controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 10px 0;
+    }
+    .quantity-controls button {
+        padding: 5px 10px;
+        margin: 0 5px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+    .quantity-controls .increase-quantity {
+        background-color: #28a745;
+        color: white;
+        width: 30px;
+    }
+    .quantity-controls .increase-quantity:hover {
+        background-color: #218838;
+    }
+    .quantity-controls .decrease-quantity {
+        background-color: #dc3545;
+        color: white;
+        width: 30px;
+    }
+    .quantity-controls .decrease-quantity:hover {
+        background-color: #c82333;
+    }
+    .quantity {
+        margin: 0 10px;
+        font-size: 16px;
+    }
+    .total {
+        text-align: right;
+        margin-top: 20px;
+        font-size: 20px;
+        font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+<div class="navbar">
+  <div class="left">
+    <a href="/">Главная</a>
+    <a href="addbook">Добавить книгу</a>
+  </div>
+  <div class="user-info">
+    <a href="/account/{login}"><p>Логин: <span id="login"></span></p></a>
+    <div class="popup">
+      <p><strong>Роль:</strong> <span id="role"></span></p>
+      <p><strong>Имя:</strong> <span id="firstName"></span></p>
+      <p><strong>Фамилия:</strong> <span id="lastName"></span></p>
+      <p><strong>Отчество:</strong> <span id="middleName"></span></p>
+      <p><strong>Почта:</strong> <span id="email"></span></p>
+    </div>
+  </div>
+  <div>
+    <a href="/cart" id="cartButton" style="display:none;">Корзина</a> <!-- initially hidden -->
+  </div>
+  <div>
+    <a href="/login" id="loginButton">Войти</a>
+    <a href="/register" id="registerButton">Зарегистрироваться</a>
+    <a href="/logout" id="logoutButton" style="display:none;">Выйти</a>
+  </div>
+</div>
+<div class="content">
+  <h2>Корзина</h2>
+  <div class="cart-list" id="cartList"></div> <!-- Список товаров в корзине -->
+  <div class="total">
+    <p>Итого: <span id="totalAmount">0</span> ₽</p>
+  </div>
+</div>
+
+<script>
+  // Скрипт для показа окна с информацией о пользователе при наведении на логин
+  document.querySelector('.user-info').addEventListener('mouseenter', function() {
+      document.querySelector('.popup').style.display = 'block';
+  });
+  document.querySelector('.user-info').addEventListener('mouseleave', function() {
+      document.querySelector('.popup').style.display = 'none';
+  });
+
+  async function getLogin() {
+      const response = await fetch('api/account');
+      const fetchedAccount = await response.json();
+      const login = document.getElementById('login');
+      const firstName = document.getElementById('firstName');
+      const lastName = document.getElementById('lastName');
+      const middleName = document.getElementById('middleName');
+      const role = document.getElementById('role');
+      const email = document.getElementById('email');
+      const loginButton = document.getElementById('loginButton');
+      const registerButton = document.getElementById('registerButton');
+      const logoutButton = document.getElementById('logoutButton');
+      const cartButton = document.getElementById('cartButton'); // Get cart button
+      const accountLink = document.querySelector('.user-info a'); // Находим ссылку на профиль
+
+      // Привязываем данные пользователя к полям
+      login.textContent = fetchedAccount?.login || 'Не авторизован';
+      firstName.textContent = fetchedAccount?.firstName || 'Не указано';
+      lastName.textContent = fetchedAccount?.lastName || 'Не указано';
+      middleName.textContent = fetchedAccount?.middleName || 'Не указано';
+      email.textContent = fetchedAccount?.email || 'Не указано';
+      role.textContent = 'Не указано';
+      if (fetchedAccount?.role == "ROLE_USER") {
+          role.textContent = 'Покупатель';
+      }
+      else if (fetchedAccount?.role == "ROLE_CONSUMER") {
+          role.textContent = 'Продавец';
+      }
+      else {
+          role.textContent = 'Админ';
+      }
+
+      // Логика отображения кнопок
+      if (fetchedAccount?.login) {
+          accountLink.href = `/account/${fetchedAccount.login}`;
+          loginButton.style.display = 'none';
+          registerButton.style.display = 'none';
+          logoutButton.style.display = 'inline';
+          cartButton.style.display = 'inline'; // Show cart button for logged-in users
+      } else {
+          loginButton.style.display = 'inline';
+          registerButton.style.display = 'inline';
+          logoutButton.style.display = 'none';
+          cartButton.style.display = 'none'; // Hide cart button for non-logged-in users
+      }
+  }
+
+  async function loadCart() {
+      const response = await fetch('/api/cart/');
+      const cart = await response.json();
+      const cartList = document.getElementById('cartList');
+      const totalAmount = document.getElementById('totalAmount');
+      let total = 0;
+
+      // Очищаем список перед добавлением новых данных
+      cartList.innerHTML = '';
+
+      // Добавляем каждый товар в корзине
+      cart.items.forEach(item => {
+          const cartItem = document.createElement('div');
+          cartItem.classList.add('cart-item');
+          cartItem.innerHTML = `
+              <img src="${item.product.imageUrl}" alt="${item.product.name}"/>
+              <h3>${item.product.name}</h3>
+              <p>Цена: ${item.product.price} ₽</p>
+              <div class="quantity-controls">
+                  <button class="decrease-quantity" data-cart-detail-id="${item.id}">-</button>
+                  <span class="quantity">${item.quantity}</span>
+                  <button class="increase-quantity" data-cart-detail-id="${item.id}">+</button>
+              </div>
+              <button class="remove-from-cart" data-product-id="${item.product.id}">Удалить</button>
+          `;
+          cartList.appendChild(cartItem);
+
+          // Считаем общую сумму
+          total += item.product.price * item.quantity;
+      });
+
+      // Обновляем общую сумму
+      totalAmount.textContent = total;
+  }
+
+  async function removeFromCart(productId) {
+      const response = await fetch(`/api/cart/deleteItem/${productId}`, {
+          method: 'DELETE',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+      });
+      if (response.ok) {
+          loadCart(); // Перезагрузить корзину после удаления товара
+      }
+  }
+
+  async function changeQuantity(cartDetailId, quantity) {
+      const response = await fetch(`/api/cart/changeQuantity/${cartDetailId}/${quantity}`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+      });
+      if (response.ok) {
+          loadCart(); // Перезагрузить корзину после изменения количества
+      }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+      getLogin();
+      loadCart();
+
+      // Обработчики для кнопок увеличения, уменьшения количества и удаления
+      document.addEventListener('click', function(event) {
+          if (event.target.classList.contains('increase-quantity')) {
+              const cartDetailId = event.target.getAttribute('data-cart-detail-id');
+              changeQuantity(cartDetailId, 1); // Увеличить количество на 1
+          } else if (event.target.classList.contains('decrease-quantity')) {
+              const cartDetailId = event.target.getAttribute('data-cart-detail-id');
+              changeQuantity(cartDetailId, -1); // Уменьшить количество на 1
+          } else if (event.target.classList.contains('remove-from-cart')) {
+              const productId = event.target.getAttribute('data-product-id');
+              removeFromCart(productId); // Удалить товар из корзины
+          }
+      });
+  });
+</script>
+</body>
+</html>
