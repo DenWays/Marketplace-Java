@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Мои заказы</title>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+    }
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #333;
+        padding: 5px 10px;
+        height: 48px;
+    }
+    .navbar a {
+        color: white;
+        padding: 5px 10px;
+        text-decoration: none;
+        display: block;
+    }
+    .navbar a:hover {
+        background-color: #575757;
+    }
+    .navbar .left {
+        display: flex;
+        justify-content: left;
+        flex-grow: 1;
+    }
+    .user-info {
+        position: relative;
+        display: inline-block;
+        color: white;
+        padding: 5px 10px;
+    }
+    .user-info:hover .popup {
+        display: block;
+    }
+    .popup {
+        display: none;
+        position: absolute;
+        top: 30px;
+        right: 0;
+        background-color: #f9f9f9;
+        color: black;
+        padding: 10px;
+        border: 1px solid #ccc;
+        width: 200px;
+    }
+    .content {
+        padding: 20px;
+        background-color: #f4f4f4;
+    }
+    .content h2 {
+        text-align: center;
+    }
+    .order-list {
+        margin-top: 20px;
+    }
+    .order-card {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin-bottom: 10px;
+        cursor: pointer;
+    }
+    .order-card a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .order-card a:hover {
+        color: #4CAF50;
+        text-decoration: underline;
+    }
+    .order-card h3 {
+        margin: 0;
+        font-size: 18px;
+    }
+    .order-card p {
+        margin: 5px 0;
+        color: #555;
+    }
+    .order-details {
+        display: none;
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+    }
+    .order-details.active {
+        display: block;
+    }
+    .product-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 5px 0;
+        border-bottom: 1px solid #ddd;
+    }
+    .product-item:last-child {
+        border-bottom: none;
+    }
+  </style>
+</head>
+<body>
+<div class="navbar">
+  <div class="left">
+    <a href="/">Главная</a>
+    <a href="/orders">Заказы</a>
+  </div>
+  <div class="user-info">
+    <a href="/account/{login}"><p>Логин: <span id="login"></span></p></a>
+    <div class="popup">
+      <p><strong>Роль:</strong> <span id="role"></span></p>
+      <p><strong>Имя:</strong> <span id="firstName"></span></p>
+      <p><strong>Фамилия:</strong> <span id="lastName"></span></p>
+      <p><strong>Отчество:</strong> <span id="middleName"></span></p>
+      <p><strong>Почта:</strong> <span id="email"></span></p>
+    </div>
+  </div>
+  <div>
+    <a href="/cart" id="cartButton" style="display:none;">Корзина</a> <!-- initially hidden -->
+  </div>
+  <div>
+    <a href="/login" id="loginButton">Войти</a>
+    <a href="/register" id="registerButton">Зарегистрироваться</a>
+    <a href="/logout" id="logoutButton" style="display:none;">Выйти</a>
+  </div>
+</div>
+<div class="content">
+  <h2>Мои заказы</h2>
+  <div class="order-list" id="orderList"></div> <!-- Список заказов -->
+</div>
+
+<script>
+  // Скрипт для показа окна с информацией о пользователе при наведении на логин
+  document.querySelector('.user-info').addEventListener('mouseenter', function() {
+      document.querySelector('.popup').style.display = 'block';
+  });
+  document.querySelector('.user-info').addEventListener('mouseleave', function() {
+      document.querySelector('.popup').style.display = 'none';
+  });
+
+  async function getLogin() {
+      const response = await fetch('api/account');
+      const fetchedAccount = await response.json();
+      const login = document.getElementById('login');
+      const firstName = document.getElementById('firstName');
+      const lastName = document.getElementById('lastName');
+      const middleName = document.getElementById('middleName');
+      const role = document.getElementById('role');
+      const email = document.getElementById('email');
+      const loginButton = document.getElementById('loginButton');
+      const registerButton = document.getElementById('registerButton');
+      const logoutButton = document.getElementById('logoutButton');
+      const cartButton = document.getElementById('cartButton'); // Get cart button
+      const accountLink = document.querySelector('.user-info a'); // Находим ссылку на профиль
+
+      // Привязываем данные пользователя к полям
+      login.textContent = fetchedAccount?.login || 'Не авторизован';
+      firstName.textContent = fetchedAccount?.firstName || 'Не указано';
+      lastName.textContent = fetchedAccount?.lastName || 'Не указано';
+      middleName.textContent = fetchedAccount?.middleName || 'Не указано';
+      email.textContent = fetchedAccount?.email || 'Не указано';
+      role.textContent = 'Не указано';
+      if (fetchedAccount?.role == "ROLE_USER") {
+          role.textContent = 'Покупатель';
+      }
+      else if (fetchedAccount?.role == "ROLE_CONSUMER") {
+          role.textContent = 'Продавец';
+      }
+      else {
+          role.textContent = 'Админ';
+      }
+
+      // Логика отображения кнопок
+      if (fetchedAccount?.login) {
+          accountLink.href = `/account/${fetchedAccount.login}`;
+          loginButton.style.display = 'none';
+          registerButton.style.display = 'none';
+          logoutButton.style.display = 'inline';
+          cartButton.style.display = 'inline'; // Show cart button for logged-in users
+      } else {
+          loginButton.style.display = 'inline';
+          registerButton.style.display = 'inline';
+          logoutButton.style.display = 'none';
+          cartButton.style.display = 'none'; // Hide cart button for non-logged-in users
+      }
+  }
+
+  async function loadOrders() {
+      const response = await fetch('/api/orders/');
+      const orders = await response.json();
+      const orderList = document.getElementById('orderList');
+      orderList.innerHTML = '';
+
+      let totalSum = 0;
+
+      orders.forEach(order => {
+          const totalPrice = order.items.reduce((sum, item) => sum + item.quantity * item.product.price, 0);
+          totalSum += totalPrice;
+
+          const orderCard = document.createElement('div');
+          orderCard.classList.add('order-card');
+          orderCard.innerHTML = `
+              <h3>Заказ #${order.id}</h3>
+              <p>Дата заказа: ${order.creatingDate}</p>
+              <p>Статус: ${order.status.name}</p>
+              <p><strong>Общая сумма: ${totalPrice} ₽</strong></p>
+              <div class="order-details">
+                  ${order.items.map(item => `
+                      <div class="product-item">
+                          <a href="/products/${item.product.id}">${item.product.name}</a>
+                          <span>${item.quantity} x ${item.product.price} ₽</span>
+                      </div>
+                  `).join('')}
+              </div>
+          `;
+          orderList.appendChild(orderCard);
+
+          orderCard.addEventListener('click', function() {
+              const details = this.querySelector('.order-details');
+              details.classList.toggle('active');
+          });
+      });
+
+      const totalSumElement = document.createElement('h3');
+      totalSumElement.innerHTML = `Общая сумма всех заказов: <strong>${totalSum} ₽</strong>`;
+      orderList.prepend(totalSumElement);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+      getLogin();
+      loadOrders();
+  });
+</script>
+</body>
+</html>
