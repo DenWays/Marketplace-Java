@@ -1,0 +1,52 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: #f4f4f4;
+}
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+.auth-box {
+  background-color: #fff;
+  padding: 20px 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+.auth-box h2 {
+  margin-bottom: 20px;
+}
+.auth-box button[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  background-color: #28a745; /* зеленый цвет для кнопки "Выйти" */
+  margin-top: 10px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.auth-box button[type="submit"]:hover {
+  background-color: #218838; /* темнее зеленый при наведении */
+}
+.auth-box button[type="button"] {
+  width: 100%;
+  padding: 10px;
+  background-color: #333; /* исходный цвет для кнопки "Назад" */
+  color: white;
+  margin-top: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.auth-box button[type="button"]:hover {
+  background-color: #575757; /* темнее цвет при наведении */
+}
