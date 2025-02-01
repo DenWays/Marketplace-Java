@@ -1,0 +1,7 @@
+// Скрипт для показа окна с информацией о пользователе при наведении на логин
+document.querySelector('.user-info').addEventListener('mouseenter', function() {
+    document.querySelector('.popup').style.display = 'block';
+});
+document.querySelector('.user-info').addEventListener('mouseleave', function() {
+    document.querySelector('.popup').style.display = 'none';
+});

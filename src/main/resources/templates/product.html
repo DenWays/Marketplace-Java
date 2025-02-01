@@ -49,68 +49,9 @@
         </div>
     </div>
 </div>
-<script>
-    async function getLogin() {
-        const response = await fetch('/api/account');
-        const fetchedAccount = await response.json();
-        document.getElementById('login').textContent = fetchedAccount?.login || 'Не авторизован';
-        document.getElementById('firstName').textContent = fetchedAccount?.firstName || 'Не указано';
-        document.getElementById('lastName').textContent = fetchedAccount?.lastName || 'Не указано';
-        document.getElementById('middleName').textContent = fetchedAccount?.middleName || 'Не указано';
-        document.getElementById('email').textContent = fetchedAccount?.email || 'Не указано';
-        document.getElementById('role').textContent = fetchedAccount?.role === 'ROLE_USER' ? 'Покупатель' :
-            fetchedAccount?.role === 'ROLE_CONSUMER' ? 'Продавец' : 'Админ';
-        const accountLink = document.querySelector('.user-info a'); // Находим ссылку на профиль
-
-        if (fetchedAccount?.login) {
-            accountLink.href = `/account/${fetchedAccount.login}`;
-            document.getElementById('loginButton').style.display = 'none';
-            document.getElementById('registerButton').style.display = 'none';
-            document.getElementById('logoutButton').style.display = 'inline';
-            document.getElementById('cartButton').style.display = 'inline';
-        } else {
-            document.getElementById('loginButton').style.display = 'inline';
-            document.getElementById('registerButton').style.display = 'inline';
-            document.getElementById('logoutButton').style.display = 'none';
-            document.getElementById('cartButton').style.display = 'none';
-        }
-        if (fetchedAccount?.role === "ROLE_USER") {
-            cartButton.style.display = 'inline';
-            ordersButton.style.display = 'inline';
-            addToCartButton.style.display = 'inline';
-        } else {
-            cartButton.style.display = 'none';
-            ordersButton.style.display = 'none';
-            addToCartButton.style.display = 'none';
-        }
-    }
-
-    async function loadProductDetails() {
-        const productId = window.location.pathname.split('/').pop();
-        const response = await fetch(`/api/products/${productId}`);
-        const product = await response.json();
-        document.getElementById('productImage').src = product.imageUrl || '#';
-        document.getElementById('productName').textContent = product.name || 'Название недоступно';
-        document.getElementById('productAccount').querySelector('span').textContent = product.account?.login || 'Не указан';
-        document.getElementById('productAccount').querySelector('span').value = product.account?.id || -1;
-        document.getElementById('productCategory').querySelector('span').textContent = product.category?.name || 'Не указана';
-        document.getElementById('productQuantity').querySelector('span').textContent = product.quantity || 'Не указано';
-        document.getElementById('productDescription').textContent = product.description || 'Описание недоступно';
-        document.getElementById('productPrice').textContent = `Цена: ${product.price} ₽`;
-        document.getElementById('addToCartButton').addEventListener('click', () => {
-            console.log('Товар добавлен в корзину:', productId);
-            // Реализуйте логику добавления товара в корзину
-        });
-
-        const sellerLogin = product.account?.login || 'Не указан';
-        const sellerLink = document.getElementById('sellerLogin');
-        sellerLink.href = `/account/${sellerLogin}`;
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        getLogin();
-        loadProductDetails();
-    });
-</script>
+<script src="/js/loadUserInfo.js"></script>
+<script src="/js/getLogin.js"></script>
+<script src="/js/loadProductDetails.js"></script>
+<script src="/js/loadProductPage.js"></script>
 </body>
 </html>

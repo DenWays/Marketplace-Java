@@ -30,5 +30,24 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addViewController("/css/productStyle.css").setViewName("css/productStyle.css");
         registry.addViewController("/css/profileStyle.css").setViewName("css/profileStyle.css");
         registry.addViewController("/css/registerStyle.css").setViewName("css/registerStyle.css");
+
+        registry.addViewController("/js/loadUserInfo.js").setViewName("/js/loadUserInfo.js");
+        registry.addViewController("/js/getLogin.js").setViewName("/js/getLogin.js");
+        registry.addViewController("/js/loadProducts.js").setViewName("/js/loadProducts.js");
+        registry.addViewController("/js/loadIndexPage.js").setViewName("/js/loadIndexPage.js");
+        registry.addViewController("/js/changeQuantity.js").setViewName("/js/changeQuantity.js");
+        registry.addViewController("/js/loadCart.js").setViewName("/js/loadCart.js");
+        registry.addViewController("/js/loadCartPage.js").setViewName("/js/loadCartPage.js");
+        registry.addViewController("/js/placeOrder.js").setViewName("/js/placeOrder.js");
+        registry.addViewController("/js/removeFromCart.js").setViewName("/js/removeFromCart.js");
+        registry.addViewController("/js/loginCsrfToken.js").setViewName("/js/loginCsrfToken.js");
+        registry.addViewController("/js/loadOrders.js").setViewName("/js/loadOrders.js");
+        registry.addViewController("/js/loadOrdersPage.js").setViewName("/js/loadOrdersPage.js");
+        registry.addViewController("/js/loadProductDetails.js").setViewName("/js/loadProductDetails.js");
+        registry.addViewController("/js/loadProductPage.js").setViewName("/js/loadProductPage.js");
+        registry.addViewController("/js/loadProfile.js").setViewName("/js/loadProfile.js");
+        registry.addViewController("/js/loadProfilePage.js").setViewName("/js/loadProfilePage.js");
+        registry.addViewController("/js/loadConsumerProducts.js").setViewName("/js/loadConsumerProducts.js");
+        registry.addViewController("/js/register.js").setViewName("/js/register.js");
     }
 }

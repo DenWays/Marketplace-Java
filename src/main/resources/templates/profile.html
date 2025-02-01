@@ -11,10 +11,20 @@
 <div class="navbar">
   <div class="left">
     <a href="/">Главная</a>
-    <a href="/orders" id="ordersButton">Заказы</a>
+    <a href="orders" id="ordersButton">Заказы</a>
+  </div>
+  <div class="user-info">
+    <a href="/account/{login}"><p>Логин: <span id="login"></span></p></a>
+    <div class="popup">
+      <p><strong>Роль:</strong> <span id="role"></span></p>
+      <p><strong>Имя:</strong> <span id="firstName"></span></p>
+      <p><strong>Фамилия:</strong> <span id="lastName"></span></p>
+      <p><strong>Отчество:</strong> <span id="middleName"></span></p>
+      <p><strong>Почта:</strong> <span id="email"></span></p>
+    </div>
   </div>
   <div>
-    <a href="/cart" id="cartButton" style="display:none;">Корзина</a>
+    <a href="/cart" id="cartButton" style="display:none;">Корзина</a> <!-- initially hidden -->
   </div>
   <div>
     <a href="/login" id="loginButton">Войти</a>
@@ -44,68 +54,10 @@
     <div id="productList" style="display: flex; flex-wrap: wrap;"></div>
   </div>
 </div>
-<script>
-  async function loadProfile() {
-    const login = window.location.pathname.split('/').pop();
-    const response = await fetch(`/api/account/${login}`);
-    const account = await response.json();
-    document.getElementById('profileLogin').textContent = account?.login || 'Не указано';
-    document.getElementById('profileLogin').value = account?.id;
-    document.getElementById('profileRole').textContent = account?.role === 'ROLE_USER' ? 'Покупатель' :
-      account?.role === 'ROLE_CONSUMER' ? 'Продавец' : 'Админ';
-    document.getElementById('profileFirstName').textContent = account?.firstName || 'Не указано';
-    document.getElementById('profileLastName').textContent = account?.lastName || 'Не указано';
-    document.getElementById('profileMiddleName').textContent = account?.middleName || 'Не указано';
-    document.getElementById('profileEmail').textContent = account?.email || 'Не указано';
-    document.getElementById('creatingDate').textContent = account?.creatingDate || 'Не указано';
-
-    // Логика отображения кнопок
-    if (account?.login) {
-      loginButton.style.display = 'none';
-      registerButton.style.display = 'none';
-      logoutButton.style.display = 'inline';
-      cartButton.style.display = 'inline'; // Show cart button for logged-in users
-    } else {
-      loginButton.style.display = 'inline';
-      registerButton.style.display = 'inline';
-      logoutButton.style.display = 'none';
-      cartButton.style.display = 'none'; // Hide cart button for non-logged-in users
-    }
-    if (account?.role == 'ROLE_CONSUMER') {
-      loadSellerProducts();
-    }
-    if (fetchedAccount?.role === "ROLE_USER") {
-      cartButton.style.display = 'inline';
-      ordersButton.style.display = 'inline';
-    } else {
-      cartButton.style.display = 'none';
-      ordersButton.style.display = 'none';
-    }
-  }
-
-  async function loadSellerProducts() {
-    const accountId = document.getElementById('profileLogin').value;
-    const response = await fetch(`/api/products/account/${accountId}`);
-    const products = await response.json();
-    const productList = document.getElementById('productList');
-    if (products.length > 0) {
-      products.forEach(product => {
-        const productCard = document.createElement('div');
-        productCard.classList.add('product-card');
-        productCard.innerHTML = `
-          <img src="${product.imageUrl || 'placeholder.jpg'}" alt="${product.name}" />
-          <h4>${product.name}</h4>
-          <p><strong>Категория: </strong> ${product.category?.name || 'Не указано'}</p>
-          <p><strong>Количество: </strong> ${product.quantity || '0'}</p>
-          <p><strong>Цена: </strong><span class="price"> ${product.price || '0'} руб.</span></p>
-        `;
-        productList.appendChild(productCard);
-      });
-      document.getElementById('sellerProducts').style.display = 'block'; // Показываем блок с товарами
-    }
-  }
-
-  document.addEventListener('DOMContentLoaded', loadProfile);
-</script>
+<script src="/js/loadUserInfo.js"></script>
+<script src="/js/getLogin.js"></script>
+<script src="/js/loadProfile.js"></script>
+<script src="/js/loadConsumerProducts.js"></script>
+<script src="/js/loadProfilePage.js"></script>
 </body>
 </html>

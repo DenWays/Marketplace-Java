@@ -45,7 +45,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "register", "api/account", "api/products", "api/addaccount",
                                 "navigation", "login", "api/csrf-token", "logout", "products/{id}", "api/products/{id}",
-                                "css/**")
+                                "css/**", "js/**")
                         .permitAll()
                         .anyRequest().authenticated())
                 .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
