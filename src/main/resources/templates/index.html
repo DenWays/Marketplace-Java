@@ -121,7 +121,7 @@
 <div class="navbar">
     <div class="left">
         <a href="/">Главная</a>
-        <a href="orders">Заказы</a>
+        <a href="orders" id="ordersButton">Заказы</a>
     </div>
     <div class="user-info">
         <a href="/account/{login}"><p>Логин: <span id="login"></span></p></a>
@@ -188,6 +188,8 @@
             role.textContent = 'Админ';
         }
 
+        window.userRole = fetchedAccount?.role || null;
+
         // Логика отображения кнопок
         if (fetchedAccount?.login) {
             accountLink.href = `/account/${fetchedAccount.login}`;
@@ -200,6 +202,14 @@
             registerButton.style.display = 'inline';
             logoutButton.style.display = 'none';
             cartButton.style.display = 'none'; // Hide cart button for non-logged-in users
+        }
+
+        if (fetchedAccount?.role === "ROLE_USER") {
+            cartButton.style.display = 'inline';
+            ordersButton.style.display = 'inline';
+        } else {
+            cartButton.style.display = 'none';
+            ordersButton.style.display = 'none';
         }
     }
 
@@ -226,6 +236,10 @@
             `;
             productList.appendChild(productCard);
         });
+
+        if (window.userRole !== "ROLE_USER") {
+            document.querySelectorAll('.add-to-cart').forEach(btn => btn.style.display = 'none');
+        }
 
         // Обработчик кнопки "Добавить в корзину"
         document.querySelectorAll('.add-to-cart').forEach(button => {

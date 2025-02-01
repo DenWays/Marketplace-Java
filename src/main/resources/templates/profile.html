@@ -121,7 +121,7 @@
 <div class="navbar">
   <div class="left">
     <a href="/">Главная</a>
-    <a href="/orders">Заказы</a>
+    <a href="/orders" id="ordersButton">Заказы</a>
   </div>
   <div>
     <a href="/cart" id="cartButton" style="display:none;">Корзина</a>
@@ -183,6 +183,13 @@
     }
     if (account?.role == 'ROLE_CONSUMER') {
       loadSellerProducts();
+    }
+    if (fetchedAccount?.role === "ROLE_USER") {
+      cartButton.style.display = 'inline';
+      ordersButton.style.display = 'inline';
+    } else {
+      cartButton.style.display = 'none';
+      ordersButton.style.display = 'none';
     }
   }
 

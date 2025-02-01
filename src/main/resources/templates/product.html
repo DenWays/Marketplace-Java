@@ -133,7 +133,7 @@
 <div class="navbar">
     <div class="left">
         <a href="/">Главная</a>
-        <a href="/orders">Заказы</a>
+        <a href="/orders" id="ordersButton">Заказы</a>
     </div>
     <div class="user-info">
         <a href="/account/{login}"><p>Логин: <span id="login"></span></p></a>
@@ -195,6 +195,15 @@
             document.getElementById('registerButton').style.display = 'inline';
             document.getElementById('logoutButton').style.display = 'none';
             document.getElementById('cartButton').style.display = 'none';
+        }
+        if (fetchedAccount?.role === "ROLE_USER") {
+            cartButton.style.display = 'inline';
+            ordersButton.style.display = 'inline';
+            addToCartButton.style.display = 'inline';
+        } else {
+            cartButton.style.display = 'none';
+            ordersButton.style.display = 'none';
+            addToCartButton.style.display = 'none';
         }
     }
 
