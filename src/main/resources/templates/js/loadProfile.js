@@ -11,4 +11,8 @@ async function loadProfile() {
     document.getElementById('profileMiddleName').textContent = account?.middleName || 'Не указано';
     document.getElementById('profileEmail').textContent = account?.email || 'Не указано';
     document.getElementById('creatingDate').textContent = account?.creatingDate || 'Не указано';
+
+    if (account?.role == 'ROLE_CONSUMER') {
+          loadConsumerProducts();
+    }
 }
