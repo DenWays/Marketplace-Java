@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Мои заказы</title>
-  <link rel="stylesheet" href="/css/ordersStyle.css">
+  <title>Список пользователей и заказов</title>
   <link rel="stylesheet" href="/css/navbarStyle.css">
+  <link rel="stylesheet" href="/css/adminOrdersStyle.css">
 </head>
 <body>
 <div class="navbar">
@@ -34,12 +34,23 @@
   </div>
 </div>
 <div class="content">
-  <h2>Мои заказы</h2>
-  <div class="order-list" id="orderList"></div> <!-- Список заказов -->
+  <h2>Список пользователей</h2>
+  <ul class="user-list" id="userList">
+  </ul>
+</div>
+<div id="statusModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Выберите статус</h2>
+    <select id="statusSelect"></select>
+    <button id="confirmStatusChange">Подтвердить</button>
+  </div>
 </div>
 <script src="/js/loadUserInfo.js"></script>
 <script src="/js/getLogin.js"></script>
-<script src="/js/loadOrders.js"></script>
-<script src="/js/loadOrdersPage.js"></script>
+<script src="/js/loadAdminOrders.js" ></script>
+<script src="/js/changeStatus.js" ></script>
+<script src="/js/loadStatuses.js" ></script>
+<script src="/js/loadAdminOrdersPage.js" ></script>
 </body>
 </html>

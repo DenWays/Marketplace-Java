@@ -1,6 +1,7 @@
 package com.example.Marketplace.configs;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
@@ -20,6 +21,7 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addViewController("/account/{login}").setViewName("profile");
         registry.addViewController("/cart").setViewName("cart");
         registry.addViewController("/orders").setViewName("orders");
+        registry.addViewController("/admin/orders").setViewName("adminOrders");
 
         registry.addViewController("/css/indexStyle.css").setViewName("css/indexStyle.css");
         registry.addViewController("/css/navbarStyle.css").setViewName("css/navbarStyle.css");
@@ -30,6 +32,7 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addViewController("/css/productStyle.css").setViewName("css/productStyle.css");
         registry.addViewController("/css/profileStyle.css").setViewName("css/profileStyle.css");
         registry.addViewController("/css/registerStyle.css").setViewName("css/registerStyle.css");
+        registry.addViewController("/css/adminOrdersStyle.css").setViewName("css/adminOrdersStyle.css");
 
         registry.addViewController("/js/loadUserInfo.js").setViewName("/js/loadUserInfo.js");
         registry.addViewController("/js/getLogin.js").setViewName("/js/getLogin.js");
@@ -49,5 +52,9 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addViewController("/js/loadProfilePage.js").setViewName("/js/loadProfilePage.js");
         registry.addViewController("/js/loadConsumerProducts.js").setViewName("/js/loadConsumerProducts.js");
         registry.addViewController("/js/register.js").setViewName("/js/register.js");
+        registry.addViewController("/js/changeStatus.js").setViewName("/js/changeStatus.js");
+        registry.addViewController("/js/loadAdminOrders.js").setViewName("/js/loadAdminOrders.js");
+        registry.addViewController("/js/loadStatuses.js").setViewName("/js/loadStatuses.js");
+        registry.addViewController("/js/loadAdminOrdersPage.js").setViewName("/js/loadAdminOrdersPage.js");
     }
 }

@@ -44,13 +44,23 @@ async function getLogin() {
         registerButton.style.display = 'inline';
         logoutButton.style.display = 'none';
         cartButton.style.display = 'none'; // Hide cart button for non-logged-in users
+        ordersButton.style.display = 'none';
+        adminOrdersButton.style.display = 'none';
     }
 
     if (fetchedAccount?.role === "ROLE_USER") {
         cartButton.style.display = 'inline';
         ordersButton.style.display = 'inline';
-    } else {
+        adminOrdersButton.style.display = 'none';
+    }
+    else if (fetchedAccount?.role === "ROLE_ADMIN") {
         cartButton.style.display = 'none';
         ordersButton.style.display = 'none';
+        adminOrdersButton.style.display = 'inline';
+    }
+    else {
+        cartButton.style.display = 'none';
+        ordersButton.style.display = 'none';
+        adminOrdersButton.style.display = 'none';
     }
 }

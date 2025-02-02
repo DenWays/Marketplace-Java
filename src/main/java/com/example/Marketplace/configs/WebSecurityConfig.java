@@ -47,6 +47,7 @@ public class WebSecurityConfig {
                                 "navigation", "login", "api/csrf-token", "logout", "products/{id}", "api/products/{id}",
                                 "css/**", "js/**")
                         .permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
                 .formLogin(formLogin -> formLogin.defaultSuccessUrl("/", true).permitAll())
