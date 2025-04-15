@@ -12,7 +12,7 @@ async function loadConsumerProducts() {
           <h4>${product.name}</h4>
           <p><strong>Категория: </strong> ${product.category?.name || 'Не указано'}</p>
           <p><strong>Количество: </strong> ${product.quantity || '0'}</p>
-          <p><strong>Цена: </strong><span class="price"> ${product.price || '0'} руб.</span></p>
+          <p><strong>Цена: </strong><span class="price"> ${product.price || '0'} ₽</span></p>
         `;
         productList.appendChild(productCard);
       });

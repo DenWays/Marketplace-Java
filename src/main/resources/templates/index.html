@@ -36,6 +36,37 @@
 </div>
 <div class="content">
     <h2>Каталог</h2>
+
+    <div class="search-sort-container">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Поиск по названию...">
+        </div>
+
+        <div class="category-filter">
+            <div class="dropdown">
+                <button id="categoryDropdownBtn">Выберите категорию</button>
+                <div class="dropdown-content">
+                    <div id="categoryList">
+                        <label><input type="checkbox" value="all" id="selectAllCategories"> Всё</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sort-options">
+            <label for="sortField">Сортировать по:</label>
+            <select id="sortField">
+                <option value="name">Названию</option>
+                <option value="price">Цене</option>
+            </select>
+
+            <select id="sortDirection">
+                <option value="asc">По возрастанию</option>
+                <option value="desc">По убыванию</option>
+            </select>
+        </div>
+    </div>
+
     <div class="product-list" id="productList"></div>
 </div>
 <script src="/js/loadUserInfo.js"></script>

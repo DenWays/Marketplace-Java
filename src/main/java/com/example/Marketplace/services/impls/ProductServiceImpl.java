@@ -8,9 +8,13 @@ import com.example.Marketplace.repositories.ProductRepository;
 import com.example.Marketplace.services.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -20,8 +24,24 @@ public class ProductServiceImpl implements ProductService {
     private final CategoryRepository categoryRepository;
 
     @Override
-    public List<Product> getProducts() {
-        return productRepository.findAll();
+    public List<Product> getProducts(String search, String sortBy, String direction, List<String> categories) {
+        Sort sort = direction.equalsIgnoreCase("asc")
+                ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+
+        boolean isSearchEmpty = (search == null || search.trim().isEmpty());
+        boolean isCategoriesEmpty = (categories == null || categories.isEmpty());
+
+        if (isSearchEmpty && isCategoriesEmpty) {
+            return productRepository.findAll(sort);
+        }
+        else {
+            return productRepository.searchByNameAndCategories(
+                    isSearchEmpty ? null : search.trim(),
+                    isCategoriesEmpty ? null : categories,
+                    sort
+            );
+        }
     }
 
     @Override

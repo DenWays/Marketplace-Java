@@ -20,8 +20,9 @@ public class CartController {
     }
 
     @PostMapping("addtocart/{productId}")
-    public void addToCart(@PathVariable Integer productId, @AuthenticationPrincipal CustomUserDetails userDetails) {
+    public boolean addToCart(@PathVariable Integer productId, @AuthenticationPrincipal CustomUserDetails userDetails) {
         cartService.addToCart(productId, userDetails.getAccount().getId());
+        return true;
     }
 
     @DeleteMapping("deleteItem/{cartDetailId}")

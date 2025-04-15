@@ -7,7 +7,7 @@ import com.example.Marketplace.models.Product;
 import java.util.List;
 
 public interface ProductService {
-    List<Product> getProducts();
+    List<Product> getProducts(String search, String sortBy, String direction, List<String> categories);
     Product addProduct(Product product, Account account);
     Product getById(Integer id);
     List<Product> getProductsByAccountId(Integer accountId);

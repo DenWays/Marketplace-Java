@@ -19,8 +19,11 @@ public class CatalogController {
     private final ProductService productService;
 
     @GetMapping
-    public List<Product> getProducts() {
-        return productService.getProducts();
+    public List<Product> getProducts(@RequestParam(required = false) String search,
+                                     @RequestParam(required = false, defaultValue = "name") String sortBy,
+                                     @RequestParam(required = false, defaultValue = "asc") String direction,
+                                     @RequestParam(required = false) List<String> categories) {
+        return productService.getProducts(search, sortBy, direction, categories);
     }
 
     @GetMapping("{id}")
@@ -41,7 +44,6 @@ public class CatalogController {
     }
 
     @GetMapping("categories")
-    @PreAuthorize("hasAuthority('ROLE_CONSUMER')")
     public List<Category> getAllCategories() {
         return productService.getAllCategories();
     }
