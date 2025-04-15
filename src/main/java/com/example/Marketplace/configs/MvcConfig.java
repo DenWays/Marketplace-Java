@@ -22,6 +22,7 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addViewController("/cart").setViewName("cart");
         registry.addViewController("/orders").setViewName("orders");
         registry.addViewController("/admin/orders").setViewName("adminOrders");
+        registry.addViewController("/products/add").setViewName("addProduct");
 
         registry.addViewController("/css/indexStyle.css").setViewName("css/indexStyle.css");
         registry.addViewController("/css/navbarStyle.css").setViewName("css/navbarStyle.css");
@@ -33,6 +34,7 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addViewController("/css/profileStyle.css").setViewName("css/profileStyle.css");
         registry.addViewController("/css/registerStyle.css").setViewName("css/registerStyle.css");
         registry.addViewController("/css/adminOrdersStyle.css").setViewName("css/adminOrdersStyle.css");
+        registry.addViewController("/css/addProductStyle.css").setViewName("css/addProductStyle.css");
 
         registry.addViewController("/js/loadUserInfo.js").setViewName("/js/loadUserInfo.js");
         registry.addViewController("/js/getLogin.js").setViewName("/js/getLogin.js");
@@ -56,5 +58,7 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addViewController("/js/loadAdminOrders.js").setViewName("/js/loadAdminOrders.js");
         registry.addViewController("/js/loadStatuses.js").setViewName("/js/loadStatuses.js");
         registry.addViewController("/js/loadAdminOrdersPage.js").setViewName("/js/loadAdminOrdersPage.js");
+        registry.addViewController("/js/addProduct.js").setViewName("/js/addProduct.js");
+        registry.addViewController("/js/loadAddProductPage.js").setViewName("/js/loadAddProductPage.js");
     }
 }

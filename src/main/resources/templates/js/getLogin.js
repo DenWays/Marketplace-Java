@@ -62,5 +62,6 @@ async function getLogin() {
         cartButton.style.display = 'none';
         ordersButton.style.display = 'none';
         adminOrdersButton.style.display = 'none';
+        addProductButton.style.display = 'inline';
     }
 }
