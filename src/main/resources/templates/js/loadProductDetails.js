@@ -17,4 +17,15 @@ async function loadProductDetails() {
     const sellerLogin = product.account?.login || 'Не указан';
     const sellerLink = document.getElementById('sellerLogin');
     sellerLink.href = `/account/${sellerLogin}`;
+
+    const responseAccount = await fetch('/api/account');
+    const fetchedAccount = await responseAccount.json();
+
+    if (fetchedAccount?.role === "ROLE_USER") {
+        cartButton.style.display = 'inline';
+        addToCartButton.style.display = "inline";
+    }
+    else {
+        addToCartButton.style.display = "none";
+    }
 }

@@ -6,6 +6,7 @@ import com.example.Marketplace.models.Category;
 import com.example.Marketplace.models.Product;
 import com.example.Marketplace.services.ProductService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,7 @@ public class CatalogController {
     }
 
     @PostMapping("add")
+    @PreAuthorize("hasAuthority('ROLE_CONSUMER')")
     public Product addProduct(@RequestBody Product product, @AuthenticationPrincipal CustomUserDetails userDetails) {
         return productService.addProduct(product, userDetails.getAccount());
     }
@@ -39,11 +41,13 @@ public class CatalogController {
     }
 
     @GetMapping("categories")
+    @PreAuthorize("hasAuthority('ROLE_CONSUMER')")
     public List<Category> getAllCategories() {
         return productService.getAllCategories();
     }
 
     @PostMapping("addCategory")
+    @PreAuthorize("hasAuthority('ROLE_CONSUMER')")
     public Category addCategory(@RequestBody Category category) {
         return productService.addCategory(category);
     }

@@ -19,7 +19,7 @@ async function loadCart() {
               <span class="quantity">${item.quantity}</span>
               <button class="increase-quantity" data-cart-detail-id="${item.id}">+</button>
           </div>
-          <button class="remove-from-cart" data-product-id="${item.product.id}">Удалить</button>
+          <button class="remove-from-cart" data-product-id="${item.id}">Удалить</button>
       `;
       cartList.appendChild(cartItem);
 

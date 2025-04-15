@@ -15,4 +15,11 @@ async function loadProfile() {
     if (account?.role == 'ROLE_CONSUMER') {
           loadConsumerProducts();
     }
+
+    const responseAccount = await fetch('/api/account');
+    const fetchedAccount = await responseAccount.json();
+
+    if (fetchedAccount?.login == account?.login) {
+        editProfileButton.style.display = "inline";
+    }
 }
