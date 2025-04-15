@@ -1,16 +1,33 @@
 async function register() {
-    const login = document.getElementById('login').value;
+    const login = document.getElementById('login').value.toLowerCase();
     const password = document.getElementById('password').value;
     const firstName = document.getElementById('firstName').value;
     const lastName = document.getElementById('lastName').value;
     const middleName = document.getElementById('middleName').value;
     const email = document.getElementById('email').value;
-    const creatingDate = new Date().toISOString().split('T')[0];
+
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const creatingDate = `${year}-${month}-${day}`;
 
     if (!login || !password) {
-        alert("Please fill out both fields.");
+        alert("Заполните все поля.");
         return;
     }
+
+    try {
+        const responseAccount = await fetch(`/api/account/${login}`);
+        const fetchedAccount = await responseAccount.json();
+        if (fetchedAccount?.login == login) {
+            alert("Логин уже занят. Попробуйте другой.");
+            return;
+        }
+    }
+    catch {
+    }
+
 
     const response = await fetch('api/addaccount', {
         method: 'POST',
