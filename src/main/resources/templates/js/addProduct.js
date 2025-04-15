@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Предпросмотр изображения
     const imageInput = document.getElementById('productImage');
     const previewImage = document.getElementById('previewImage');
 
@@ -12,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Модальное окно для добавления категории
     const addCategoryBtn = document.getElementById('addCategoryBtn');
     const modal = document.getElementById('categoryModal');
     const cancelBtn = document.getElementById('cancelAddCategory');
@@ -20,7 +18,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const newCategoryInput = document.getElementById('newCategoryName');
     const categorySelect = document.getElementById('productCategory');
 
-    // Загрузка категорий при загрузке страницы
     function loadCategories() {
         fetch('/api/products/categories', {
             method: 'GET',
@@ -35,12 +32,10 @@ document.addEventListener('DOMContentLoaded', function() {
             return response.json();
         })
         .then(categories => {
-            // Очищаем список, кроме первого элемента (заглушка)
             while (categorySelect.options.length > 1) {
                 categorySelect.remove(1);
             }
 
-            // Добавляем загруженные категории
             categories.forEach(category => {
                 const option = document.createElement('option');
                 option.value = category.id || category.name;
@@ -53,7 +48,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Инициализация загрузки категорий
     loadCategories();
 
     addCategoryBtn.addEventListener('click', function() {
@@ -72,7 +66,6 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // Отправка новой категории на сервер
         fetch('/api/products/addCategory', {
             method: 'POST',
             headers: {
@@ -88,13 +81,10 @@ document.addEventListener('DOMContentLoaded', function() {
             return response.json();
         })
         .then(data => {
-            // Обновляем список категорий после успешного добавления
             loadCategories();
 
-            // Выбираем новую категорию
             categorySelect.value = data.id || data.name;
 
-            // Закрываем модальное окно
             modal.style.display = 'none';
         })
         .catch(error => {
@@ -103,14 +93,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Закрытие модального окна при клике вне его
     window.addEventListener('click', function(event) {
         if (event.target === modal) {
             modal.style.display = 'none';
         }
     });
 
-    // Обработка отправки формы
     const form = document.getElementById('addProductForm');
     form.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -128,7 +116,6 @@ document.addEventListener('DOMContentLoaded', function() {
             idAccount: 123
         };
 
-        // Валидация данных
         if (!productData.name || !productData.description ||
             isNaN(productData.price) || isNaN(productData.quantity) ||
             !productData.imageUrl || !productData.category) {
@@ -155,8 +142,6 @@ document.addEventListener('DOMContentLoaded', function() {
             form.reset();
             previewImage.style.display = 'none';
 
-            // Можно добавить редирект или другую логику после успешного добавления
-            // window.location.href = '/admin/products';
         })
         .catch(error => {
             console.error('Ошибка:', error);

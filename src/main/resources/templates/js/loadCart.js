@@ -5,10 +5,8 @@ async function loadCart() {
   const totalAmount = document.getElementById('totalAmount');
   let total = 0;
 
-  // Очищаем список перед добавлением новых данных
   cartList.innerHTML = '';
 
-  // Добавляем каждый товар в корзине
   cart.items.forEach(item => {
       const cartItem = document.createElement('div');
       cartItem.classList.add('cart-item');
@@ -25,10 +23,8 @@ async function loadCart() {
       `;
       cartList.appendChild(cartItem);
 
-      // Считаем общую сумму
       total += item.product.price * item.quantity;
   });
 
-  // Обновляем общую сумму
   totalAmount.textContent = total;
 }

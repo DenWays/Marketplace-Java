@@ -44,17 +44,17 @@ body {
     color: #555;
 }
 .product-quantity {
-    margin-bottom: 10px; /* Добавляет отступ после количества */
+    margin-bottom: 10px;
 }
 .product-price {
     font-size: 28px;
     color: #4CAF50;
     font-weight: bold;
     margin: 10px 0;
-    margin-top: 10px; /* Добавляет отступ перед ценой */
+    margin-top: 10px;
 }
 .add-to-cart {
-    background-color: #4CAF50; /* Зеленый цвет */
+    background-color: #4CAF50;
     color: white;
     border: none;
     padding: 10px;
@@ -67,7 +67,7 @@ body {
     background-color: #45a049;
 }
 .login-seller {
-    color: #4CAF50; /* Зеленый цвет для логина */
+    color: #4CAF50;
     text-decoration: none;
     padding: 5px 2px;
     border-radius: 5px;
@@ -75,6 +75,6 @@ body {
 }
 
 .login-seller:hover {
-    background-color: #45a049; /* Затемнение при наведении */
-    color: white; /* Белый цвет текста при наведении */
+    background-color: #45a049;
+    color: white;
 }

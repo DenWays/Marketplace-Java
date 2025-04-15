@@ -16,6 +16,6 @@ async function loadConsumerProducts() {
         `;
         productList.appendChild(productCard);
       });
-      document.getElementById('sellerProducts').style.display = 'block'; // Показываем блок с товарами
+      document.getElementById('sellerProducts').style.display = 'block';
     }
 }

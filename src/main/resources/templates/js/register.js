@@ -30,7 +30,7 @@ async function register() {
     });
 
     if (response.ok) {
-        window.location.href = 'login'; // Перенаправление на страницу входа
+        window.location.href = 'login';
     } else {
         alert("Ошибка регистрации. Попробуйте ещё раз.");
     }

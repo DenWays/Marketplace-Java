@@ -6,6 +6,6 @@ async function removeFromCart(productId) {
       },
   });
   if (response.ok) {
-      loadCart(); // Перезагрузить корзину после удаления товара
+      loadCart();
   }
 }

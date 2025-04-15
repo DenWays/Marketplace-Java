@@ -12,7 +12,6 @@ async function placeOrder() {
       if (response.ok) {
           const order = await response.json();
           alert('Заказ успешно создан!');
-          // Можно перенаправить пользователя на страницу заказов или обновить корзину
           loadCart();
       } else {
           console.error('Ошибка при создании заказа:', response.statusText);

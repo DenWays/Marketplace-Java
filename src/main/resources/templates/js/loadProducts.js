@@ -2,9 +2,7 @@ async function loadProducts() {
     const response = await fetch('/api/products');
     const products = await response.json();
     const productList = document.getElementById('productList');
-    // Очищаем список перед добавлением новых данных
     productList.innerHTML = '';
-    // Добавляем каждую книгу в виде карточки
     products.forEach(product => {
         const productCard = document.createElement('div');
         productCard.classList.add('product-card');
@@ -26,7 +24,6 @@ async function loadProducts() {
         document.querySelectorAll('.add-to-cart').forEach(btn => btn.style.display = 'none');
     }
 
-    // Обработчик кнопки "Добавить в корзину"
     document.querySelectorAll('.add-to-cart').forEach(button => {
         button.addEventListener('click', async function() {
             const productId = this.getAttribute('data-product-id');
@@ -35,10 +32,9 @@ async function loadProducts() {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        // Если требуется авторизация, добавьте токен в заголовки
                         'Authorization': `Bearer ${localStorage.getItem('token')}`
                     },
-                    credentials: 'include' // Если используете куки для аутентификации
+                    credentials: 'include'
                 });
 
                 if (response.ok) {

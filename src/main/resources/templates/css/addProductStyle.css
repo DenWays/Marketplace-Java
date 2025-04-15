@@ -114,7 +114,6 @@ body {
     background-color: #575757;
 }
 
-/* Модальное окно */
 .modal {
     display: none;
     position: fixed;

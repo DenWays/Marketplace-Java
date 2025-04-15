@@ -41,7 +41,7 @@ body {
 .auth-box button[type="submit"] {
   width: 100%;
   padding: 12px;
-  background-color: #28a745; /* зеленый цвет для кнопки "Войти" */
+  background-color: #28a745;
   padding-right: 100px;
   padding-left: 100px;
   margin-top: 10px;
@@ -53,12 +53,12 @@ body {
   box-sizing: border-box;
 }
 .auth-box button[type="submit"]:hover {
-  background-color: #218838; /* темнее зеленый при наведении */
+  background-color: #218838;
 }
 .auth-box button[type="button"] {
   width: 100%;
   padding: 12px;
-  background-color: #333; /* исходный цвет для кнопки "Назад" */
+  background-color: #333;
   color: white;
   margin-top: 10px;
   border: none;
@@ -68,5 +68,5 @@ body {
   box-sizing: border-box;
 }
 .auth-box button[type="button"]:hover {
-  background-color: #575757; /* темнее цвет при наведении */
+  background-color: #575757;
 }

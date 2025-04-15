@@ -6,6 +6,6 @@ async function changeQuantity(cartDetailId, quantity) {
       },
   });
   if (response.ok) {
-      loadCart(); // Перезагрузить корзину после изменения количества
+      loadCart();
   }
 }

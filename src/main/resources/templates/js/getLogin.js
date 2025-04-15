@@ -10,10 +10,9 @@ async function getLogin() {
     const loginButton = document.getElementById('loginButton');
     const registerButton = document.getElementById('registerButton');
     const logoutButton = document.getElementById('logoutButton');
-    const cartButton = document.getElementById('cartButton'); // Get cart button
-    const accountLink = document.querySelector('.user-info a'); // Находим ссылку на профиль
+    const cartButton = document.getElementById('cartButton');
+    const accountLink = document.querySelector('.user-info a');
 
-    // Привязываем данные пользователя к полям
     login.textContent = fetchedAccount?.login || 'Не авторизован';
     firstName.textContent = fetchedAccount?.firstName || 'Не указано';
     lastName.textContent = fetchedAccount?.lastName || 'Не указано';
@@ -32,18 +31,17 @@ async function getLogin() {
 
     window.userRole = fetchedAccount?.role || null;
 
-    // Логика отображения кнопок
     if (fetchedAccount?.login) {
         accountLink.href = `/account/${fetchedAccount.login}`;
         loginButton.style.display = 'none';
         registerButton.style.display = 'none';
         logoutButton.style.display = 'inline';
-        cartButton.style.display = 'inline'; // Show cart button for logged-in users
+        cartButton.style.display = 'inline';
     } else {
         loginButton.style.display = 'inline';
         registerButton.style.display = 'inline';
         logoutButton.style.display = 'none';
-        cartButton.style.display = 'none'; // Hide cart button for non-logged-in users
+        cartButton.style.display = 'none';
         ordersButton.style.display = 'none';
         adminOrdersButton.style.display = 'none';
     }

@@ -41,7 +41,7 @@ body {
     color: #555;
 }
 .cart-item button {
-    background-color: #dc3545; /* Красный цвет для кнопки удаления */
+    background-color: #dc3545;
     color: white;
     border: none;
     padding: 10px;
@@ -93,7 +93,7 @@ body {
     font-weight: bold;
 }
 #placeOrderButton {
-    background-color: #28a745; /* Зеленый цвет */
+    background-color: #28a745;
     color: white;
     border: none;
     padding: 10px 20px;

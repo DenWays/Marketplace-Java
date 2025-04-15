@@ -12,7 +12,6 @@ async function loadProductDetails() {
     document.getElementById('productPrice').textContent = `Цена: ${product.price} ₽`;
     document.getElementById('addToCartButton').addEventListener('click', () => {
         console.log('Товар добавлен в корзину:', productId);
-        // Реализуйте логику добавления товара в корзину
     });
 
     const sellerLogin = product.account?.login || 'Не указан';
