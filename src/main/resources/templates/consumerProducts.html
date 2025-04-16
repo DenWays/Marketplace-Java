@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Главная</title>
-    <link rel="stylesheet" href="/css/indexStyle.css">
+    <title>Мои товары</title>
+    <link rel="stylesheet" href="/css/consumerProductsStyle.css">
     <link rel="stylesheet" href="/css/navbarStyle.css">
 </head>
 <body>
@@ -13,7 +13,6 @@
         <a href="/">Главная</a>
         <a href="/orders" id="ordersButton" style="display:none;">Заказы</a>
         <a href="/admin/orders" id="adminOrdersButton" style="display:none;">Все заказы</a>
-        <a href="/products/consumer" id="addProductButton" style="display:none">Мои товары</a>
     </div>
     <div class="user-info">
         <a href="/account/{login}"><p>Логин: <span id="login"></span></p></a>
@@ -35,43 +34,17 @@
     </div>
 </div>
 <div class="content">
-    <h2>Каталог</h2>
-
-    <div class="search-sort-container">
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Поиск по названию...">
+    <div id="sellerProducts" style="display: none;">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+            <h3>Мои товары</h3>
+            <button onclick="location.href='/products/add'" style="padding: 8px 16px; font-size: 14px; border-radius: 5px; border: none; background-color: #4CAF50; color: white; cursor: pointer;">Добавить</button>
         </div>
-
-        <div class="category-filter">
-            <div class="dropdown">
-                <button id="categoryDropdownBtn">Выберите категорию</button>
-                <div class="dropdown-content">
-                    <div id="categoryList">
-                        <label><input type="checkbox" value="all" id="selectAllCategories"> Всё</label>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="sort-options">
-            <label for="sortField">Сортировать по:</label>
-            <select id="sortField">
-                <option value="name">Названию</option>
-                <option value="price">Цене</option>
-            </select>
-
-            <select id="sortDirection">
-                <option value="asc">По возрастанию</option>
-                <option value="desc">По убыванию</option>
-            </select>
-        </div>
+        <div id="productList" style="display: flex; flex-wrap: wrap;"></div>
     </div>
-
-    <div class="product-list" id="productList"></div>
 </div>
 <script src="/js/loadUserInfo.js"></script>
 <script src="/js/getLogin.js"></script>
-<script src="/js/loadProducts.js"></script>
-<script src="/js/loadIndexPage.js"></script>
+<script src="/js/loadConsumerProducts.js"></script>
+<script src="/js/loadConsumerProductsPage.js"></script>
 </body>
 </html>

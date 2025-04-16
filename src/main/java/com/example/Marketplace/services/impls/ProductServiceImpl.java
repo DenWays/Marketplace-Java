@@ -69,4 +69,31 @@ public class ProductServiceImpl implements ProductService {
     public Category addCategory(Category category) {
         return categoryRepository.save(category);
     }
+
+    @Override
+    public void changeQuantity(Integer productId, Integer quantity) throws Exception {
+        Product product = productRepository.findById(productId).get();
+
+        if (quantity == 1) {
+            product.setQuantity(product.getQuantity() + 1);
+        }
+        else if (quantity == -1) {
+            if (product.getQuantity() > 1) {
+                product.setQuantity(product.getQuantity() - 1);
+            }
+            else {
+                throw new Exception("Количество равно 1.");
+            }
+        }
+        else {
+            if (quantity <= 0) {
+                throw new Exception("Переданное количество отрицательно или равно 0.");
+            }
+            else {
+                product.setQuantity(quantity);
+            }
+        }
+
+        productRepository.save(product);
+    }
 }

@@ -53,4 +53,15 @@ public class CatalogController {
     public Category addCategory(@RequestBody Category category) {
         return productService.addCategory(category);
     }
+
+    @GetMapping("consumer")
+    @PreAuthorize("hasAuthority('ROLE_CONSUMER')")
+    public List<Product> getConsumerProducts(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        return getProductsByAccountId(userDetails.getAccount().getId());
+    }
+
+    @PostMapping("changeQuantity/{productId}/{quantity}")
+    public void changeQuantity(@PathVariable Integer productId, @PathVariable int quantity) throws Exception {
+        productService.changeQuantity(productId, quantity);
+    }
 }

@@ -181,3 +181,17 @@ body {
 .confirm-btn:hover {
     background-color: #45a049;
 }
+
+.back-btn {
+    display: inline-block;
+    margin-bottom: 20px;
+    background-color: #333;
+    color: white;
+    padding: 10px 15px;
+    margin: 10px 10px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+.back-btn:hover {
+    background-color: #575757;
+}
