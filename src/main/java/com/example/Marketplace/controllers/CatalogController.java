@@ -60,8 +60,14 @@ public class CatalogController {
         return getProductsByAccountId(userDetails.getAccount().getId());
     }
 
-    @PostMapping("changeQuantity/{productId}/{quantity}")
-    public void changeQuantity(@PathVariable Integer productId, @PathVariable int quantity) throws Exception {
-        productService.changeQuantity(productId, quantity);
+//    @PostMapping("changeQuantity/{productId}/{quantity}")
+//    public void changeQuantity(@PathVariable Integer productId, @PathVariable int quantity) throws Exception {
+//        productService.changeQuantity(productId, quantity);
+//    }
+
+    @PostMapping("edit/{productId}")
+    @PreAuthorize("hasAuthority('ROLE_CONSUMER')")
+    public Product editProduct(@RequestBody Product newProduct, @PathVariable Integer productId) {
+        return productService.editProduct(newProduct, productId);
     }
 }

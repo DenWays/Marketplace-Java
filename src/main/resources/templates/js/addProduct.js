@@ -1,6 +1,36 @@
 document.addEventListener('DOMContentLoaded', function() {
     const imageInput = document.getElementById('productImage');
     const previewImage = document.getElementById('previewImage');
+    const priceInput = document.getElementById('productPrice');
+    const quantityInput = document.getElementById('productQuantity');
+
+    priceInput.addEventListener('input', function() {
+        if (this.value.startsWith('-')) {
+            this.value = this.value.slice(1);
+        }
+
+        if (this.value.startsWith('0') && this.value.length > 1) {
+            this.value = this.value.slice(1);
+        }
+
+        if (/--/.test(this.value)) {
+            this.value = this.value.replace(/--/, '-');
+        }
+    });
+
+    quantityInput.addEventListener('input', function() {
+        if (this.value.startsWith('-')) {
+            this.value = this.value.slice(1);
+        }
+
+        if (this.value.startsWith('0') && this.value.length > 1) {
+            this.value = this.value.slice(1);
+        }
+
+        if (/--/.test(this.value)) {
+            this.value = this.value.replace(/--/, '-');
+        }
+    });
 
     imageInput.addEventListener('input', function() {
         if (this.value) {
@@ -35,7 +65,6 @@ document.addEventListener('DOMContentLoaded', function() {
             while (categorySelect.options.length > 1) {
                 categorySelect.remove(1);
             }
-
             categories.forEach(category => {
                 const option = document.createElement('option');
                 option.value = category.id || category.name;
@@ -47,7 +76,6 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Ошибка загрузки категорий:', error);
         });
     }
-
     loadCategories();
 
     addCategoryBtn.addEventListener('click', function() {
@@ -65,7 +93,6 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Введите название категории');
             return;
         }
-
         fetch('/api/products/addCategory', {
             method: 'POST',
             headers: {
@@ -82,9 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(data => {
             loadCategories();
-
             categorySelect.value = data.id || data.name;
-
             modal.style.display = 'none';
         })
         .catch(error => {
@@ -102,7 +127,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('addProductForm');
     form.addEventListener('submit', function(e) {
         e.preventDefault();
-
         const productData = {
             name: document.getElementById('productName').value.trim(),
             description: document.getElementById('productDescription').value.trim(),
@@ -115,14 +139,12 @@ document.addEventListener('DOMContentLoaded', function() {
             quantity: parseInt(document.getElementById('productQuantity').value),
             idAccount: 123
         };
-
         if (!productData.name || !productData.description ||
             isNaN(productData.price) || isNaN(productData.quantity) ||
             !productData.imageUrl || !productData.category) {
             alert('Пожалуйста, заполните все поля корректно');
             return;
         }
-
         fetch('/api/products/add', {
             method: 'POST',
             headers: {
@@ -141,7 +163,6 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Товар успешно добавлен!');
             form.reset();
             previewImage.style.display = 'none';
-
         })
         .catch(error => {
             console.error('Ошибка:', error);

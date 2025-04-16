@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Мои товары</title>
+  <link rel="stylesheet" href="/css/editProductStyle.css">
+  <link rel="stylesheet" href="/css/navbarStyle.css">
+</head>
+<body>
+<div class="navbar">
+  <div class="left">
+    <a href="/">Главная</a>
+    <a href="/orders" id="ordersButton" style="display:none;">Заказы</a>
+    <a href="/admin/orders" id="adminOrdersButton" style="display:none;">Все заказы</a>
+  </div>
+  <div class="user-info">
+    <a href="/account/{login}"><p>Логин: <span id="login"></span></p></a>
+    <div class="popup">
+      <p><strong>Роль:</strong> <span id="role"></span></p>
+      <p><strong>Имя:</strong> <span id="firstName"></span></p>
+      <p><strong>Фамилия:</strong> <span id="lastName"></span></p>
+      <p><strong>Отчество:</strong> <span id="middleName"></span></p>
+      <p><strong>Почта:</strong> <span id="email"></span></p>
+    </div>
+  </div>
+  <div>
+    <a href="/cart" id="cartButton" style="display:none;">Корзина</a>
+  </div>
+  <div>
+    <a href="/login" id="loginButton">Войти</a>
+    <a href="/register" id="registerButton">Зарегистрироваться</a>
+    <a href="/logout" id="logoutButton" style="display:none;">Выйти</a>
+  </div>
+</div>
+<a href="/products/consumer" class="back-btn">Назад</a>
+<div class="add-product-container">
+  <h1>Редактировать товар</h1>
+  <form id="editProductForm">
+    <div class="form-group">
+      <label for="name">Название товара</label>
+      <input type="text" id="name" name="name" required>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Описание</label>
+      <textarea id="description" name="description" rows="4" required></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="category">Категория</label>
+      <select id="productCategory" name="category" required>
+        <option value="">Выберите категорию</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="price">Цена (₽)</label>
+        <input type="number" id="price" name="price" min="0" step="0.01" required>
+      </div>
+
+      <div class="form-group">
+        <label for="quantity">Количество</label>
+        <input type="number" id="quantity" name="quantity" min="0" required>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="imageUrl">Ссылка на изображение</label>
+      <input type="url" id="imageUrl" name="imageUrl" placeholder="https://example.com/image.jpg">
+      <div class="image-preview">
+        <img id="previewImage" src="#" alt="Предпросмотр" style="display: none;">
+      </div>
+    </div>
+
+    <button type="submit" class="submit-btn">Сохранить изменения</button>
+  </form>
+</div>
+<script src="/js/loadUserInfo.js"></script>
+<script src="/js/getLogin.js"></script>
+<script src="/js/loadEditProductPage.js"></script>
+</body>
+</html>

@@ -14,4 +14,5 @@ public interface ProductService {
     List<Category> getAllCategories();
     Category addCategory(Category category);
     void changeQuantity(Integer productId, Integer quantity) throws Exception;
+    Product editProduct(Product newProduct, Integer productId);
 }
